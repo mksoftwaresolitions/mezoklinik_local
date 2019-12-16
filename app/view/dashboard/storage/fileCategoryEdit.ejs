@@ -1,0 +1,240 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item"><a href="/dashboard/dosyaTipiListesi">Dosya Tipi Listele</a></li>
+      <li class="breadcrumb-item active">Dosya Tipi Düzenle</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Dosya Tipi Klasörü Düzenle</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Dosya Tipi klasörü güncellendi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Dosya Tipi Klasörü Güncelleme Formu</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/dosyaTipiDuzenle" method="POST">
+
+              <input type="text" class="form-control" id="file_category_uid" name="file_category_uid" value="<%= fileCat.uid %>" required hidden>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ürün Kategorisi</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="product_category" name="product_category" required>
+                    <option value="">Ürün Kategorisi seçin</option>
+                  <% prodCatList.forEach(prodCat => { %>
+                    <% if(prodCat.uid == selectedProdCat) { %>
+                    <option value="<%= prodCat.uid %>" selected><%= prodCat.name %></option>
+                    <% } else { %>
+                    <option value="<%= prodCat.uid %>"><%= prodCat.name %></option>
+                    <% } %>
+                  <% }); %>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ürün</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="product" name="product" required>
+                    <option value="">Ürün seçin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Klasör Adı</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="folder_name" name="folder_name" value="<%= fileCat.name %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Yalnızca Doktorlar görebilir</label>
+                <div class="col-sm-1 pull-md-11" id="chbx">
+                <% if(fileCat.permission) { %>
+                  <input type="checkbox" class="form-control" id="folder_permission" name="folder_permission" hidden>
+                  <i class="fa fa-square-o" id="chk1"></i>
+                  <i class="fa fa-check-square-o" id="chk2" hidden="hidden"></i>
+                <% } else { %>
+                  <input type="checkbox" class="form-control" id="folder_permission" name="folder_permission" hidden checked>
+                  <i class="fa fa-square-o" id="chk1" hidden="hidden"></i>
+                  <i class="fa fa-check-square-o" id="chk2"></i>
+                <% } %>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div hidden>
+                <div class="form-group row">
+                  <label class="col-sm-2 form-control-label">Açıklama Başlığı</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="folder_title" name="folder_title"  value="<%= fileCat.title %>">
+                  </div>
+                </div>
+                <div class="line"></div>
+                
+                <div class="form-group row">
+                  <label class="col-sm-2 form-control-label">Açıklama</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" id="folder_description" name="folder_description" rows="5"><%= fileCat.description %></textarea>
+                  </div>
+                </div>
+                <div class="line"></div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <!-- button type="submit" class="btn btn-secondary">Cancel</button -->
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+  var product_category = document.getElementById('product_category');
+  var product = document.getElementById('product');
+  // var folderList = [];
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // token ile kimlik doğrulama
+  firebase.auth().signInWithCustomToken("<%= customToken %>")
+      .catch(function(error) {
+        console.log("Hata! Kod: " + errorCode + "\nHata: " + errorMessage);
+      });
+
+    prodCatDoldur("<%= selectedProdCat %>");
+
+    product_category.addEventListener('change', function(e){
+      prodCatDoldur(e.target.value);
+    });
+    
+    // seçilen product iznine göre checkbox davranışı ayarlanıyor
+    var prdList = [];
+    document.getElementById("chbx").addEventListener('click', function(e){
+      if ((prdList.length == 1 && prdList[0].permission) || (prdList.length == 0)){
+        var c1 = document.getElementById("chk1").getAttribute("hidden");
+        var c2 = document.getElementById("chk2").getAttribute("hidden");
+        if (c2 != null) {
+          document.getElementById("chk1").setAttribute("hidden", "hidden");
+          document.getElementById("chk2").removeAttribute("hidden");
+          document.getElementById("folder_permission").setAttribute("checked","checked");
+        }
+        if (c1 != null) {
+          document.getElementById("chk1").removeAttribute("hidden");
+          document.getElementById("chk2").setAttribute("hidden", "hidden");
+          document.getElementById("folder_permission").removeAttribute("checked");
+        }
+      }
+    });
+    
+    product.addEventListener('change', function(e){
+          prdList = [];
+          document.getElementById("folder_permission").removeAttribute("checked");
+          document.getElementById("chk1").removeAttribute("hidden");
+          document.getElementById("chk2").setAttribute("hidden", "hidden");
+      if (e.target.value != ""){
+        //seçilen product elemanına göre doktor izni seçiliyor
+        database.ref("menu/productCategory/" + product_category.value + "/product")
+        .orderByChild("uid")
+        .equalTo(e.target.value)
+        .once('value').then(function(snapshot) {
+          snapshot.forEach( snap => {
+            prdList.push(snap.val());
+          });
+          if (prdList.length == 1){
+            if (!prdList[0].permission){ //yalnız doktorlar görebilir
+              document.getElementById("folder_permission").setAttribute("checked", "");
+              document.getElementById("chk1").setAttribute("hidden", "hidden");
+              document.getElementById("chk2").removeAttribute("hidden");
+            }else{
+              // document.getElementById("file_permission").setAttribute("checked", "false");
+              // document.getElementById("file_permission").removeAttribute("checked");
+            }
+          }
+        });
+      }
+    });
+    // <<< seçilen file_category iznine göre checkbox davranışı ayarlanıyor (bitti)
+
+
+function prodCatDoldur(prdCatUid) {
+  //product içi boşaltılıyor
+  for (i = (product.length-1); i>=0; i--){
+    product.remove(i);
+  }
+  var opt1 = document.createElement("option");
+  opt1.text = "Ürün Klasörü Seçin";
+  opt1.value = "";
+  product.add(opt1);
+  
+  if (prdCatUid != 0){
+    //seçilen üst klasöre göre product dolduruluyor
+    database.ref("menu/productCategory/"+prdCatUid+"/product").orderByChild("name").once('value').then(function(snapshot) {
+      snapshot.forEach( snap => {
+        var option = document.createElement("option");
+        option.text = snap.val().name;
+        option.value = snap.val().uid;
+        if (snap.val().uid == "<%= selectedProduct %>") {
+        option.selected = true;
+        }
+        product.add(option);
+      });
+    });
+  }  
+}
+</script>

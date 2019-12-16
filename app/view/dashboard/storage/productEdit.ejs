@@ -1,0 +1,380 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item active"><a href="/dashboard/urunListesi">Ürün Listele</a></li>
+      <li class="breadcrumb-item active">Ürün Düzenle</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Ürün Klasörü Düzenle</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Ürün klasörü güncellendi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Ürün Klasörü Düzenleme Formu</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/urunDuzenle" method="POST">
+
+              <input type="text" class="form-control" id="product_category_uid" name="product_category_uid" value="<%= selectedProdCat %>" required hidden>
+              <input type="text" class="form-control" id="product_uid" name="product_uid" value="<%= prod.uid %>" required hidden>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Kategori</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="product_category" name="product_category" required>
+                    <option value="">Ürün Kategorisi seçin</option>
+                  <% prodCatList.forEach(prodCat => { %>
+                    <% if (prodCat.uid == selectedProdCat) { %>
+                    <option value="<%= prodCat.uid %>" selected><%= prodCat.name %></option>
+                    <% } else { %>
+                    <option value="<%= prodCat.uid %>"><%= prodCat.name %></option>
+                    <% } %>
+                  <% }); %>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Klasör Adı</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="folder_name" name="folder_name" value="<%= prod.name %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Yalnızca Doktorlar görebilir</label>
+                <div class="col-sm-1 pull-md-11 tooltip1 chb" id="chbx">
+                  <span class="tooltiptext">Yalnızca doktorların görme yetkisi olan bir klasör seçerseniz bu ürünü herkese açık yapamazsınız!</span>
+                  <% if (prod.permission == false) { %>
+                    <input type="checkbox" class="form-control" id="folder_permission" name="folder_permission" hidden checked>
+                    <i class="fa fa-square-o" id="chk1" hidden="hidden"></i>
+                    <i class="fa fa-check-square-o" id="chk2" style="color:red;"></i>
+                  <% } else { %>
+                    <input type="checkbox" class="form-control" id="folder_permission" name="folder_permission" hidden>
+                    <i class="fa fa-square-o" id="chk1"></i>
+                    <i class="fa fa-check-square-o" id="chk2" hidden="hidden"></i>
+                  <% } %>
+                  </div>
+              </div>
+              <div class="line"></div>
+              
+              <div hidden>
+                <div class="form-group row">
+                  <label class="col-sm-2 form-control-label">Açıklama Başlığı</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="folder_title" name="folder_title" value="<%= prod.title %>">
+                  </div>
+                </div>
+                <div class="line"></div>
+              </div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Açıklama</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="folder_description" name="folder_description" rows="5" required><%= prod.description %></textarea>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <!-- label class="col-sm-2 form-control-label">Klasör Adı</label -->
+                <!-- <div class="col-sm-12 alert alert-success alert-dismissible fade show" role="alert" id="successAlert" hidden>
+                  <strong>Klasör oluşturuldu.<br>Dosya eklendi.</strong>
+                </div>
+                <div class="col-sm-12 alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" hidden >
+                  <strong>Dosya eklenirken bir hata oluştu!</strong>
+                </div> -->
+                <label class="col-sm-2 form-control-label">Logo <p id="logoProgressPercent"></p></label>
+                <div class="col-sm-10">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="product_logo_url" name="product_logo_url" value="<%= prod.product_logo_url %>" hidden>
+                  <input type="file" value="upload" id="logoButton" title="Logo Seç" accept="image/*"/>
+                </div>
+                  <div class="col-sm-2">
+                    <img id="logoPreview" src="<%= prod.product_logo_url %>" alt="" height="100px">
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Doktor</label>
+                <div class="col-sm-1 pull-md-11" id="drchbx">
+                  <input type="checkbox" class="form-control" id="is_doctor" name="is_doctor" hidden>
+                  <% if (prod.is_doctor) { %>
+                    <i class="fa fa-square-o" id="drchk1" hidden="hidden"></i>
+                    <i class="fa fa-check-square-o" id="drchk2"></i>
+                  <% } else { %>
+                    <i class="fa fa-square-o" id="drchk1"></i>
+                    <i class="fa fa-check-square-o" id="drchk2" hidden="hidden"></i>
+                  <% } %>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Doktor Bul Linki</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="doctor_url" name="doctor_url" value="<%= prod.doctor_url %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ürün Görseli <p id="prodImgProgressPercent"></p></label>
+                <div class="col-sm-10">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="download_url" name="download_url" value="<%= prod.download_url %>" hidden>
+                  <input type="text" class="form-control" id="storage_name" name="storage_name" value="<%= prod.storage_name %>" hidden>
+                  <input type="file" value="upload" id="prodImgButton" title="Ürün Görseli Seç" accept="image/*"/>
+                </div>
+                  <div class="col-sm-2">
+                    <img id="prodImgPreview" src="<%= prod.download_url %>" alt="" height="100px">
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+              
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+  var product_category = document.getElementById('product_category');
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // token ile kimlik doğrulama
+  firebase.auth().signInWithCustomToken("<%= customToken %>")
+      .catch(function(error) {
+        console.log("Hata! Kod: " + errorCode + "\nHata: " + errorMessage);
+      });
+
+    // seçilen product_category iznine göre checkbox davranışı ayarlanıyor >>>
+    var pcList = [];
+    document.getElementById("chbx").addEventListener('click', function(e){
+      // if (product_category.value == "") {}
+      if ((pcList.length == 1)){ // || (pcList.length == 0)
+          var c1 = document.getElementById("chk1").getAttribute("hidden");
+          var c2 = document.getElementById("chk2").getAttribute("hidden");
+        if(!pcList[0].permission){
+          if (c2 != null) {
+            document.getElementById("chk1").setAttribute("hidden", "hidden");
+            document.getElementById("chk2").removeAttribute("hidden");
+            document.getElementById("folder_permission").setAttribute("checked","checked");
+          }
+        } else {
+          if (c2 != null) {
+            document.getElementById("chk1").setAttribute("hidden", "hidden");
+            document.getElementById("chk2").removeAttribute("hidden");
+            document.getElementById("folder_permission").setAttribute("checked","checked");
+          }
+          if (c1 != null) {
+            document.getElementById("chk1").removeAttribute("hidden");
+            document.getElementById("chk2").setAttribute("hidden", "hidden");
+            document.getElementById("folder_permission").removeAttribute("checked");
+          }
+        }
+      } else { //if (pcList.length == 0) {
+        
+      }
+    });
+
+    document.getElementById("drchbx").addEventListener('click', function(e){
+      // if ((pcList.length == 1 && pcList[0].permission) || (pcList.length == 0)){
+        var c1 = document.getElementById("drchk1").getAttribute("hidden");
+        var c2 = document.getElementById("drchk2").getAttribute("hidden");
+        if (c2 != null) {
+          document.getElementById("drchk1").setAttribute("hidden", "hidden");
+          document.getElementById("drchk2").removeAttribute("hidden");
+          document.getElementById("is_doctor").setAttribute("checked","checked");
+        }
+        if (c1 != null) {
+          document.getElementById("drchk1").removeAttribute("hidden");
+          document.getElementById("drchk2").setAttribute("hidden", "hidden");
+          document.getElementById("is_doctor").removeAttribute("checked");
+        }
+      // }
+    });
+    
+    product_category.addEventListener('change', function(e){
+      setCheckBoxByProdCatUid(e.target.value);
+    });
+//{
+    setCheckBoxByProdCatUid(product_category.value);
+
+    function setCheckBoxByProdCatUid(prodCat_Uid) {
+      console.log("setCheckBoxByProdCatUid");
+          pcList = [];
+      if (prodCat_Uid != ""){
+        //seçilen product_category elemanına göre doktor izni seçiliyor
+        database.ref("menu/productCategory")
+        .orderByChild("uid")
+        .equalTo(prodCat_Uid)
+        .once('value').then(function(snapshot) {
+          snapshot.forEach( snap => {
+            pcList.push({
+              name: snap.val().name,
+              title: snap.val().title,
+              description: snap.val().description,
+              permission: snap.val().permission,
+              uid: snap.val().uid,
+            });
+          // });
+            if (pcList.length == 1){
+              if (!pcList[0].permission){ //yalnız doktorlar görebilir
+                document.getElementById("folder_permission").setAttribute("checked", "");
+                document.getElementById("chk1").setAttribute("hidden", "hidden");
+                document.getElementById("chk2").removeAttribute("hidden");
+                document.getElementById("chk2").style.color = "red";
+              }else{
+                document.getElementById("chk2").style.color = "";
+                // document.getElementById("folder_permission").setAttribute("checked", "false");
+                // document.getElementById("chk1").removeAttribute("hidden");
+                // document.getElementById("chk2").setAttribute("hidden", "hidden");
+              }
+            }
+          });
+        });
+      }
+    }
+    // <<< seçilen file_category iznine göre checkbox davranışı ayarlanıyor (bitti)
+
+
+    ///////////////// Upload /////////////////////////
+    // Get elements
+    var logoButton = document.getElementById('logoButton');
+    var prodImgButton = document.getElementById('prodImgButton');
+
+    //logo upload
+    logoButton.addEventListener('change', function(e) {
+        // Get file
+        var file = e.target.files[0];
+        if (product_category.value != ""){
+          
+            var date = new Date().getTime();
+            var storageRef = firebase.storage().ref("productFiles/" + product_category.value + '/logo/' + date + file.name);
+
+            // Upload file
+            var task = storageRef.put(file);
+
+            // Update progress bar
+            task.on('state_changed',
+                function progress(snapshot) {
+                    var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    // uploader.value = percentage;
+                    document.getElementById("logoProgressPercent").innerHTML = "%" + Math.floor(percentage);
+                },
+                function error(err) {
+                  // alert error
+                    document.getElementById("logoProgressPercent").innerHTML = "Hata! Tekrar deneyin";
+                  // document.getElementById("errorAlert").removeAttribute("hidden");
+                },
+                function complete() {
+                  var downloadURL = task.snapshot.downloadURL;
+                  document.getElementById("product_logo_url").value = downloadURL;
+                  document.getElementById("logoPreview").src = downloadURL;
+
+                }
+            );
+        } else {
+          logoButton.value = null;
+            alert("Logo eklemeden önce ürün kategorisi seçmelisiniz!");
+        }
+    });
+
+    //product image upload
+    prodImgButton.addEventListener('change', function(e) {
+        // Get file
+        var file = e.target.files[0];
+        if (product_category.value != ""){
+          
+            var date = new Date().getTime();
+            var storageRef = firebase.storage().ref("productFiles/" + product_category.value + date + file.name);
+
+            // Upload file
+            var task = storageRef.put(file);
+
+            // Update progress bar
+            task.on('state_changed',
+                function progress(snapshot) {
+                    var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    // uploader.value = percentage;
+                    document.getElementById("prodImgProgressPercent").innerHTML = "%" + Math.floor(percentage);
+                },
+                function error(err) {
+                  // alert error
+                    document.getElementById("prodImgProgressPercent").innerHTML = "Hata! Tekrar deneyin";
+                  // document.getElementById("errorAlert").removeAttribute("hidden");
+                },
+                function complete() {
+                  var downloadURL = task.snapshot.downloadURL;
+                  document.getElementById("download_url").value = downloadURL;
+                  document.getElementById("prodImgPreview").src = downloadURL;
+
+                }
+            );
+        } else {
+          logoButton.value = null;
+            alert("Ürün görseli eklemeden önce ürün kategorisi seçmelisiniz!");
+        }
+    });
+    ///////////////// Upload /////////////////////////
+
+</script>

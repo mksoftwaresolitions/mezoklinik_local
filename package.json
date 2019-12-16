@@ -1,0 +1,34 @@
+{
+  "name": "mezoklinik",
+  "version": "1.0.0",
+  "description": "Mezeklinik web uygulaması.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/MuratTsc/mezoklinik.git"
+  },
+  "author": "Murat E. Taşcı",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/MuratTsc/mezoklinik/issues"
+  },
+  "homepage": "https://gitlab.com/MuratTsc/mezoklinik#README",
+  "dependencies": {
+    "@google-cloud/storage": "^1.6.0",
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-ejs-layouts": "^2.3.1",
+    "express-session": "^1.7.6",
+    "express-subdomain": "^1.0.5",
+    "firebase": "^4.10.0",
+    "firebase-admin": "^5.9.0",
+    "nodemailer": "^4.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.0"
+  }
+}

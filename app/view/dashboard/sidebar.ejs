@@ -1,0 +1,111 @@
+<!-- Side Navbar -->
+<nav class="side-navbar">
+    <div class="side-navbar-wrapper">
+    <!-- Sidebar Header    -->
+    <div class="sidenav-header d-flex align-items-center justify-content-center">
+        <!-- User Info-->
+        <div class="sidenav-header-inner text-center" style="min-height:40px;"><!-- img src="/public/dashboard/img/avatar-1.jpg" alt="person" class="img-fluid rounded-circle">
+        <h2 class="h5">Murat E. Taşcı</h2><span>Web Developer</span -->
+        </div>
+        <!-- Small Brand information, appears on minimized sidebar-->
+        <div class="sidenav-header-logo"><a href="/" class="brand-small text-center"> <strong>M</strong><strong class="text-primary">K</strong></a></div>
+    </div>
+    <!-- Sidebar Navigation Menus-->
+    <div id="mainMenu" class="main-menu">
+        <h5 class="sidenav-heading">Ana Menü</h5>
+        <ul id="side-main-menu" class="side-menu list-unstyled">                  
+            <li><a href="/dashboard/"> <i class="icon-home"></i>Kontrol Paneli</a></li>
+            <!-- li><a href="/dashboard/forms"> <i class="icon-form"></i>Forms                             </a></li>
+            <li><a href="/dashboard/charts"> <i class="fa fa-bar-chart"></i>Charts                             </a></li>
+            <li><a href="/dashboard/tables"> <i class="icon-grid"></i>Tables                             </a></li -->
+            <li><a id="doctorDropdownDropdownBtn" href="#doctorDropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-user-md"></i>Doktor İşlemleri</a>
+                <ul id="doctorDropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/doktorListesi"> <i class="fa fa-list-ul"></i>Listele</a></li>
+                <li><a href="/dashboard/doktorEkle"> <i class="fa fa-user-plus"></i>Ekle</a></li>
+                <li><a href="/dashboard/doktorOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li>
+                </ul>
+            </li>
+            <!-- li><a href="/dashboard/login"> <i class="icon-interface-windows"></i>Login page</a></li -->
+            <!-- li> <a href="#"> <i class="icon-mail"></i>Demo
+                <div class="badge badge-warning">6 New</div></a></li -->
+
+            <li><a id="notificationDropdownBtn" href="#notificationDropdown" aria-expanded="false" data-toggle="collapse"> <!-- i class="fa fa-share-square-o"></i --><i class="fa fa-bullhorn"></i>Bildirim İşlemleri</a>
+                <ul id="notificationDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/bildirimListesi"> <i class="fa fa-list-ul"></i>Listele</a></li>
+                <li><a href="/dashboard/bildirimGonder"> <i class="fa fa-user-plus"></i>Gönder</a></li>
+                <!-- li><a href="/dashboard/dosyaOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li -->
+                </ul>
+            </li>
+            <li><a id="helpfulLinkDropdownBtn" href="#helpfulLinkDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-link"></i>Faydalı Bağlantılar</a>
+                <ul id="helpfulLinkDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/faydaliLinkListesi"> <i class="fa fa-list-ul"></i>Listele</a></li>
+                <li><a href="/dashboard/faydaliLinkEkle"> <i class="fa fa-user-plus"></i>Ekle</a></li>
+                <!-- li><a href="/dashboard/dosyaOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li -->
+                </ul>
+            </li>
+            <li><a id="campaignDropdownBtn" href="#campaignDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-star-o"></i>Kampanya</a>
+                <ul id="campaignDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/kampanyaListesi"> <i class="fa fa-list-ul"></i>Listele</a></li>
+                <li><a href="/dashboard/kampanyaEkle"> <i class="fa fa-user-plus"></i>Ekle</a></li>
+                <!-- li><a href="/dashboard/dosyaOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li -->
+                </ul>
+            </li>
+            <!--<li><a id="mailDropdownBtn" href="#mailDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-at"></i>E-Posta İşlemleri</a>
+                <ul id="mailDropdown" class="collapse list-unstyled ">
+                --><!-- li><a href="/dashboard/mailAyar"> <i class="fa fa-cogs"></i>Hesap Ayarları</a></li --><!--
+                <li><a href="/dashboard/mailSablonuDuzenle"> <i class="fa fa-envelope-o"></i>Şablon Düzenle</a></li>
+                --><!-- li><a href="/dashboard/mailTest"> <i class="fa fa-paper-plane-o"></i>E-Posta Gönder</a></li --><!--
+                --><!-- li><a href="/dashboard/dosyaOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li --><!--
+                </ul>
+            </li>-->
+            <li><a id="brandDropdownBtn" href="#brandDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bandcamp"></i>Marka İşlemleri</a>
+                <ul id="brandDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/markalar"> <i class="fa fa-bandcamp"></i>Marka İşlemleri</a></li>
+                </ul>
+            </li>
+            <li><a id="branchDropdownBtn" href="#branchDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bandcamp"></i>Branş İşlemleri</a>
+                <ul id="branchDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/branslar"> <i class="fa fa-bandcamp"></i>Branş İşlemleri</a></li>
+                </ul>
+            </li>
+        <!-- li> <a href="#"> <i class="icon-screen"> </i>Demo</a></li>
+        <li> <a href="#"> <i class="icon-flask"> </i>Demo
+            <div class="badge badge-info">Special</div></a></li>
+        <li> <a href=""> <i class="icon-flask"> </i>Demo</a></li>
+        <li> <a href=""> <i class="icon-picture"> </i>Demo</a></li -->
+        </ul>
+    </div>
+
+    <div class="admin-menu">
+        <h5 class="sidenav-heading">Dosya</h5>
+        <ul id="side-admin-menu" class="side-menu list-unstyled"> 
+            <li><a id="folderDropdownDropdownBtn" href="#folderDropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-folder-open-o"></i>Klasör İşlemleri</a>
+                <ul id="folderDropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/kategoriListesi"> <i class="fa fa-list-ul"></i>Kategori Listele</a></li>
+                <li><a href="/dashboard/urunListesi"> <i class="fa fa-list-ul"></i>Ürün Listele</a></li>
+                <li><a href="/dashboard/dosyaTipiListesi"> <i class="fa fa-list-ul"></i>Dosya Tipi Listele</a></li>
+                <li><a href="/dashboard/kategoriEkle"> <i class="fa fa-user-plus"></i>Kategori Ekle</a></li>
+                <li><a href="/dashboard/urunEkle"> <i class="fa fa-user-plus"></i>Ürün Ekle</a></li>
+                <li><a href="/dashboard/dosyaKategorisiEkle"> <i class="fa fa-user-plus"></i>Dosya Tipi Ekle</a></li>
+                <!-- li><a href="/dashboard/dosyaOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li -->
+                </ul>
+            </li>
+            <li><a id="fileDropdownDropdownBtn" href="#fileDropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-copy"></i>Dosya İşlemleri</a>
+                <ul id="fileDropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="/dashboard/dosyaListesi"> <i class="fa fa-list-ul"></i>Listele</a></li>
+                <li><a href="/dashboard/dosyaEkle"> <i class="fa fa-user-plus"></i>Ekle</a></li>
+                <!-- li><a href="/dashboard/dosyaOnayListesi"> <i class="fa fa-check"></i>Onayla</a></li -->
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="admin-menu">
+        <h5 class="sidenav-heading">Ayarlar</h5>
+        <ul id="side-admin-menu" class="side-menu list-unstyled">
+            <li><a href="/dashboard/ayarlar"> <i class="icon-home"></i>Şifre Ayarları</a></li>
+        </ul>
+    </div>
+
+    </div>
+</nav>

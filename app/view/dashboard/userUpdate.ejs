@@ -1,0 +1,29 @@
+<% users.forEach(element => { %>
+    <%- element.active %>
+    <br>
+    <%- element.branchModel.branch_name %>
+    <br>
+    <%- element.name_surname %>
+    <br>
+    <%- element.email %>
+    <hr>
+<% }); %>
+
+
+<form action="../userUpdate" method="POST">
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+        <label for="active">Aktif Et:</label>
+        <input type="checkBox" class="form-control" id="active" placeholder="Ders Adı" name="active" required="true">
+        </div>
+    </div>
+
+    <br><br>
+    <div class="row">
+        <div class="form-group col-sm-6">
+        <input type="submit" class="btn btn-info col-sm-4" value="Kaydet">
+        </div>
+    </div>
+    
+</form>

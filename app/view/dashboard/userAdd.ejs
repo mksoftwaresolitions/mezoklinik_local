@@ -1,0 +1,39 @@
+<% if (status == "ok") { %>
+Kullanıcı eklendi.
+<%= user %>
+<br>
+uid: <%= user.uid %>
+<br>
+display name: <%= user.displayName %>
+<br>
+email: <%= user.email %>
+<br>
+photoURL: <%= user.photoURL %>
+<br>
+providerId: <%= user.providerId %>
+<br>
+phoneNumber: <%= user.phoneNumber %>
+<% } else { %>
+<%- status %>
+<% } %>
+
+
+<!--
+<form action="../userAdd" method="POST">
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+        <label for="active">Aktif Et:</label>
+        <input type="checkBox" class="form-control" id="active" placeholder="Ders Adı" name="active" required="true">
+        </div>
+    </div>
+
+    <br><br>
+    <div class="row">
+        <div class="form-group col-sm-6">
+        <input type="submit" class="btn btn-info col-sm-4" value="Kaydet">
+        </div>
+    </div>
+    
+</form>
+-->

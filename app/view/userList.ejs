@@ -1,0 +1,42 @@
+<% users.forEach(element => { %>
+    <%- element.uid %>
+    <br>
+    <%- element.displayName %>
+    <br>
+    <%- element.emailVerified %>
+    <br>
+    <%- element.email %>
+    <hr>
+<% }); %>
+
+<!-- 
+
+user { uid: 'hdbTqxKUtxMtOhCIXZTiG0XZkH12',
+  email: 'user@example.com',
+  emailVerified: false,
+  displayName: 'John Doe',
+  photoURL: 'http://www.example.com/12345678/photo.png',
+  phoneNumber: '+11234567890',
+  disabled: false,
+  metadata:
+   { lastSignInTime: null,
+     creationTime: 'Thu, 22 Feb 2018 11:29:23 GMT' },
+  passwordHash: 'S-UENbD5Hn7q1WZNoiPDHVWFRGanKOdbNNxUQEJb2IECkVAeVhpG02Oltk7eqFl943PyWUn6vjN-zfEg6MgihA==',
+  passwordSalt: 'Q1ryb_lkFD7_fw==',
+  customClaims: undefined,
+  tokensValidAfterTime: 'Thu, 22 Feb 2018 11:29:23 GMT',
+  providerData:
+   [ { uid: '+11234567890',
+       displayName: undefined,
+       email: undefined,
+       photoURL: undefined,
+       providerId: 'phone',
+       phoneNumber: '+11234567890' },
+     { uid: 'user@example.com',
+       displayName: 'John Doe',
+       email: 'user@example.com',
+       photoURL: 'http://www.example.com/12345678/photo.png',
+       providerId: 'password',
+       phoneNumber: undefined } ] }
+
+-->

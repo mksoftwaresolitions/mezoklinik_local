@@ -1,0 +1,123 @@
+<script src="https://cdn.ckeditor.com/4.9.0/full/ckeditor.js"></script>
+
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item active">E-Posta Şablon Düzenleme</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">E-Posta Şablon Düzenleme</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Şablon Kaydedildi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Yeni Üye E-Posta Şablonu</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/mailSablonuDuzenle" method="POST">
+
+              <input type="text" class="form-control" id="temp_type" name="temp_type" value="new" hidden>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Konu</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="subject" name="subject" value="<%- newUser.subject %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">İçerik</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="text" name="text" rows="10" required><%- newUser.html_text %></textarea>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Onaylanan Üye E-Posta Şablonu</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/mailSablonuDuzenle" method="POST">
+
+              <input type="text" class="form-control" id="temp_type" name="temp_type" value="accept" hidden>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Konu</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="accept_subject" name="accept_subject" value="<%- acceptUser.subject %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">İçerik</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="accept_text" name="accept_text" rows="10" required><%- acceptUser.html_text %></textarea>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script>
+  CKEDITOR.replace( 'text' );
+  CKEDITOR.replace( 'accept_text' );
+</script>

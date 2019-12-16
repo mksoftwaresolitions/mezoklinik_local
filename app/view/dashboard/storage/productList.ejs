@@ -1,0 +1,324 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item active">Ürün Listele</li>
+    </ul>
+  </div>
+</div>
+<section>
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Ürün Klasörleri Listesi</h1>
+    </header>
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Sistemde kayıtlı ürün klasörlerinin listesi</h4>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label">Ürün Kategorisi</label>
+              <div class="col-sm-10">
+                <select class="custom-select" id="product_category" name="product_category" required>
+                  <option value="">Ürün Kategorisi seçin</option>
+                <% prodCatList.forEach(prodCat => { %>
+                  <option value="<%= prodCat.uid %>"><%= prodCat.name %></option>
+                <% }); %>
+                </select>
+              </div>
+            </div>
+            <div class="line"></div>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover" id="productTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Klasör Adı</th>
+                    <th>Başlık</th>
+                    <th>Açıklama</th>
+                    <th>İzin</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fullFolderModal" id="ffModalBtn" hidden></button>
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#emptyFolderModal" id="efModalBtn" hidden></button>
+
+            <!-- The Modal for full folder -->
+            <div class="modal fade" id="fullFolderModal">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Dikkat!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    Bu ürün klasörüne eklenmiş dosya(lar) var. Bu klasörü silerseniz altındaki tüm dosyalar da silinecek.
+                    <br><br>Silinsin mi?
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer" id="ffModalFooter">
+                  <!-- 
+                    <a href="/dashboard/" class="btn btn-warning" >Evet</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                  -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+            <!-- The Modal for empty folder -->
+            <div class="modal fade" id="emptyFolderModal">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Dikkat!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    Ürün klasörü silinecek.
+                    <br><br>Silinsin mi?
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer" id="efModalFooter">
+                  <!-- 
+                    <a href="/dashboard/" class="btn btn-warning" >Evet</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                  -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+  var product_category = document.getElementById('product_category');
+  // var folderList = [];
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // token ile kimlik doğrulama
+  firebase.auth().signInWithCustomToken("<%= customToken %>")
+  .catch(function(error) {
+    console.log("Hata! Kod: " + errorCode + "\nHata: " + errorMessage);
+  });
+
+product_category.addEventListener('change', function(e){
+  var prdCat = e.target;
+  refreshTable(prdCat.value);
+});
+
+function refreshTable(prdCatUid){
+  if(clearTable()){
+    var prodRes = firebase.database().ref('menu/productCategory/' + prdCatUid + '/product');
+    prodRes.orderByChild("name").once('value', function(snapshot) {
+      snapshot.forEach( snap => {
+        pushTable(snap.val().name, snap.val().title, snap.val().description, snap.val().permission, prdCatUid, snap.val().uid, snap.val().storage_name);
+      });
+    });
+  }
+}
+
+function clearTable(){
+  var table = document.getElementById("productTable");
+  var topRow = table.rows.length;
+  for (i = 0; i < topRow; i++) {
+    table.deleteRow(-1);
+  }
+
+  // <thead>
+  var header = table.createTHead();
+  // <tr>
+  var row = header.insertRow(0);     
+  // <td>
+  row.insertCell(0).innerHTML = "<b>#</b>";
+  row.insertCell(1).innerHTML = "<b>Klasör Adı</b>";
+  row.insertCell(2).innerHTML = "<b>Başlık</b>";
+  row.insertCell(3).innerHTML = "<b>Açıklama</b>";
+  row.insertCell(4).innerHTML = "<b>İzin</b>";
+  row.insertCell(5).innerHTML = "<b>İşlemler</b>";
+  return true;
+}
+
+function pushTable(c2,c3,c4,c5,pcUid,pUid,productStorageName){
+  var table = document.getElementById("productTable");
+  var totalRow = table.rows.length;
+  var row = table.insertRow(totalRow);
+  row.insertCell(0).innerHTML = totalRow;
+  row.insertCell(1).innerHTML = c2;
+  row.insertCell(2).innerHTML = c3;
+  row.insertCell(3).innerHTML = c4;
+  if (c5 == true) {
+  row.insertCell(4).innerHTML = "Herkes";
+  } else {
+  row.insertCell(4).innerHTML = "Doktor";
+  }
+  row.insertCell(5).innerHTML = "<a href=\"./urunDuzenle/"+pcUid+"&"+pUid+"\" class=\"btn btn-sm btn-info\">Düzenle</a>&nbsp;&nbsp;" +
+                      "<a href=\"javascript:;\" onclick=\"delBtn('" + pcUid + "', '" + pUid + "', "+ totalRow +", '"+productStorageName+"')\" class=\"btn btn-sm btn-danger\">Sil</a>";
+  row.cells[5].style = "min-width: 150px;";
+}
+
+var fcList = [];
+function delBtn(pcUid, pUid, tableRowIndex, productStorageName){
+  var subUrl = "/dashboard/urunSil/" + pcUid + "&" + pUid;
+  database.ref("folders/productCategory/"+pcUid+"/product/"+pUid+"/fileCategory").once('value').then(function(snapshot) {
+    if (snapshot.val() == null){ // altında dosya tipi (fileCategory) olmayan ürünler 
+      document.getElementById("efModalFooter").innerHTML = "<a href=\"javascript:;\" onclick=\"emptyProductDelete('"+pcUid+"','"+pUid+"', "+tableRowIndex+", '"+productStorageName+"')\" class=\"btn btn-warning\" >Evet</a>"+
+                        "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\" id=\"efCancelBtn\">İptal</button>";
+      document.getElementById("efModalBtn").click();
+    } else { // altında dosya tipi (fileCategory) olan ürünler
+      snapshot.forEach( x => {
+        console.log(x.val());
+        fcList.push(x.val());
+      });
+      document.getElementById("ffModalFooter").innerHTML = "<a href=\"javascript:;\" onclick=\"deleteAllStorage('"+pcUid+"','"+pUid+"', "+tableRowIndex+", '"+productStorageName+"')\" class=\"btn btn-danger\" >Evet</a>"+
+                        "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\" id=\"ffCancelBtn\">İptal</button>";
+      document.getElementById("ffModalBtn").click();
+
+    }
+  });
+}
+
+
+function deleteAllStorage(pcUid,pUid,tableRowIndex, productStorageName){
+  var fileCount = 0;
+  fcList.forEach(fc => {
+    fileCount += 1;
+
+    //her bir dosya kategorisine altında dosya var mı diye bakıyoruz
+    if (fc.file) { //dosya var storage ve db silinecek
+      var fileList = Object.keys(fc.file);
+      var storageRef = firebase.storage().ref("folders/"+pcUid+"/"+pUid+"/"+fc.uid);
+      fileList.forEach(fl => {
+        //storageden dosya silme işlemleri
+        storageRef.child(fc.file[fl].storage_name).delete().then(function() {
+          console.log(fc.file[fl].storage_name + " silindi.");
+        }).catch(function(error) {
+          console.log("Hata: " + fc.file[fl].storage_name + " silinemedi.");
+        });
+
+      });
+    }
+
+    //son fileCategory silindikten altındaki dosyaları sildikten sonra product fotosunu sonra da db deki product satırını (folders ve menuden) siliyoruz.
+    if (fcList.length == fileCount) {
+      //storageden ürün dosyası siliniyor
+      firebase.storage().ref("productFiles/"+pcUid).child(productStorageName).delete().then(function() {
+        console.log(productStorageName + " silindi.");
+      }).catch(function(error) {
+        console.log("Hata: " + productStorageName + " silinemedi.");
+      });
+
+      //datebaseden product siliniyor (hem folders ve hem menu tablosundan)
+      database.ref("folders/productCategory/"+pcUid+"/product/"+pUid).remove(function(error) {
+        if (error) {
+          console.log("Realtime DB update hatası: Dosya bilgileri veritabanından (folders) silinemedi. " + error);
+        } else {
+          console.log("dosya bilgileri dbden (folders) silindi");
+
+          //datebase folders tablosundan silinen menu tablosundan da siliniyor
+          database.ref("menu/productCategory/"+pcUid+"/product/"+pUid).remove(function(error) {
+            if (error) {
+              console.log("Realtime DB update hatası: Dosya bilgileri veritabanından (menu) silinemedi. " + error);
+            } else {
+              console.log("dosya bilgileri dbden (menu) silindi");
+              refreshTable(pcUid);
+            }
+          });
+        }
+      });
+    }
+  });
+
+  //modal kapatılıyor
+  document.getElementById("ffCancelBtn").click();
+  //tablodan silinen satır kaldırılıyor
+  // console.log("row index: " + tableRowIndex);
+  // document.getElementById("productTable").deleteRow(tableRowIndex);
+  //teblo yeniden dolduruluyor
+  // refreshTable(pcUid);
+}
+
+function emptyProductDelete(pcUid, pUid, tableRowIndex, productStorageName){
+
+  //storageden ürün dosyası siliniyor
+  firebase.storage().ref("productFiles/"+pcUid).child(productStorageName).delete().then(function() {
+    console.log(productStorageName + " silindi.");
+    database.ref("folders/productCategory/"+pcUid+"/product/"+pUid).remove(function(error) {
+      if (error) {
+        console.log("Realtime DB update hatası: Dosya bilgileri veritabanından (folders) silinemedi. " + error);
+      } else {
+        console.log("dosya bilgileri dbden (folders) silindi");
+
+        //datebase folders tablosundan silinen menu tablosundan da siliniyor
+        database.ref("menu/productCategory/"+pcUid+"/product/"+pUid).remove(function(error) {
+          if (error) {
+            console.log("Realtime DB update hatası: Dosya bilgileri veritabanından (menu) silinemedi. " + error);
+          } else {
+            console.log("dosya bilgileri dbden (menu) silindi");
+            refreshTable(pcUid);
+          }
+        });
+      }
+    });
+  }).catch(function(error) {
+    console.log("Hata: " + productStorageName + " silinemedi.");
+  });
+
+  //modal kapatılıyor
+  document.getElementById("efCancelBtn").click();
+  //tablodan silinen satır kaldırılıyor
+  // console.log("row index: " + tableRowIndex);
+  // document.getElementById("productTable").deleteRow(tableRowIndex);
+  //teblo yeniden dolduruluyor
+  // refreshTable(pcUid);
+}
+
+</script>

@@ -1,0 +1,303 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item"><a href="/dashboard/dosyaListesi">Dosya Listele</a></li>
+      <li class="breadcrumb-item active">Dosya Düzenle</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Dosya Düzenle</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Dosya güncellendi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Dosya Düzenleme</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/dosyaDuzenle" method="POST">
+
+              <input type="text" class="form-control" id="file_uid" name="file_uid" value="<%= file.uid %>" required hidden>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ürün Kategorisi Klasörü</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="product_category" name="product_category" required>
+                    <option value="" selected>Ürün Kategorisi Klasörü Seçin</option>
+                  <% prodCatList.forEach(prodCat => { %>
+                  <% if (prodCat.uid == selectedProdCat) { %>
+                    <option value="<%= prodCat.uid %>" selected><%= prodCat.name %></option>
+                  <% } else { %>
+                    <option value="<%= prodCat.uid %>"><%= prodCat.name %></option>
+                  <% } %>
+                  <% }); %>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ürün Klasörü</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="product" name="product" required>
+                    <option value="" selected>Ürün Klasörü Seçin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Dosya Tipi Klasörü</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="file_category" name="file_category" required>
+                    <option value="" selected>Dosya Tipi Klasörü Seçin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Dosya Adı</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="file_name" name="file_name" value="<%= file.name %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Yalnızca Doktorlar görebilir</label>
+                <div class="col-sm-1 pull-md-11" id="chbx">
+                <% if(file.permission) { %>
+                  <input type="checkbox" class="form-control" id="file_permission" name="file_permission" hidden>
+                  <i class="fa fa-square-o" id="chk1"></i>
+                  <i class="fa fa-check-square-o" id="chk2" hidden="hidden"></i>
+                <% } else { %>
+                  <input type="checkbox" class="form-control" id="file_permission" name="file_permission" hidden checked>
+                  <i class="fa fa-square-o" id="chk1" hidden="hidden"></i>
+                  <i class="fa fa-check-square-o" id="chk2"></i>
+                <% } %>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div hidden>
+                <div class="form-group row">
+                  <label class="col-sm-2 form-control-label">Açıklama Başlığı</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="file_title" name="file_title" value="<%= file.title %>">
+                  </div>
+                </div>
+                <div class="line"></div>
+                
+                <div class="form-group row">
+                  <label class="col-sm-2 form-control-label">Açıklama</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" id="file_description" name="file_description" rows="5"><%= file.description %></textarea>
+                  </div>
+                </div>
+                <div class="line"></div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <!-- button type="submit" class="btn btn-secondary">Cancel</button -->
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+  var product_category = document.getElementById('product_category');
+  var product = document.getElementById('product');
+  var file_category = document.getElementById('file_category');
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // token ile kimlik doğrulama
+  firebase.auth().signInWithCustomToken("<%= customToken %>")
+      .catch(function(error) {
+        console.log("Hata! Kod: " + errorCode + "\nHata: " + errorMessage);
+      });
+
+    prodCatDoldur("<%= selectedProdCat %>");
+
+    product_category.addEventListener('change', function(e){
+      prodCatDoldur(e.target.value);
+    });
+
+    productDoldur("<%= selectedProduct %>");
+
+    product.addEventListener('change', function(e){
+      productDoldur(e.target.value);
+    });
+
+    // seçilen file_category iznine göre checkbox davranışı ayarlanıyor >>>
+    var fcList = [];
+    document.getElementById("chbx").addEventListener('click', function(e){
+      if ((fcList.length == 1 && fcList[0].permission) || (fcList.length == 0)){
+        var c1 = document.getElementById("chk1").getAttribute("hidden");
+        var c2 = document.getElementById("chk2").getAttribute("hidden");
+        if (c2 != null) {
+          document.getElementById("chk1").setAttribute("hidden", "hidden");
+          document.getElementById("chk2").removeAttribute("hidden");
+          document.getElementById("file_permission").setAttribute("checked","checked");
+        }
+        if (c1 != null) {
+          document.getElementById("chk1").removeAttribute("hidden");
+          document.getElementById("chk2").setAttribute("hidden", "hidden");
+          document.getElementById("file_permission").removeAttribute("checked");
+        }
+      }
+    });
+    
+      // getChbPermission("<%= selectedFileCat %>");
+
+    file_category.addEventListener('change', function(e){
+      getChbPermission(e.target.value);
+    });
+
+    function getChbPermission(fileCatUid) {
+          fcList = [];
+          document.getElementById("file_permission").removeAttribute("checked");
+          document.getElementById("chk1").removeAttribute("hidden");
+          document.getElementById("chk2").setAttribute("hidden", "hidden");
+      if (fileCatUid != ""){
+        //seçilen file_category elemanına göre doktor izni seçiliyor
+        database.ref("folders/productCategory/" + product_category.value + "/product/" + product.value + "/fileCategory")///" + fileCatUid)
+        .orderByChild("uid")
+        .equalTo(fileCatUid)
+        .once('value').then(function(snapshot) {
+          snapshot.forEach( snap => {
+            fcList.push(snap.val());
+          });
+            // fcList.push(snapshot.val());
+          if (fcList.length == 1){
+            if (!fcList[0].permission){ //yalnız doktorlar görebilir
+              document.getElementById("file_permission").setAttribute("checked", "checked");
+              document.getElementById("chk1").setAttribute("hidden", "hidden");
+              document.getElementById("chk2").removeAttribute("hidden");
+            }else{
+              document.getElementById("file_permission").removeAttribute("checked", "checked");
+              document.getElementById("chk1").removeAttribute("hidden");
+              document.getElementById("chk2").setAttribute("hidden", "hidden");
+              // document.getElementById("file_permission").setAttribute("checked", "false");
+              // document.getElementById("file_permission").removeAttribute("checked");
+            }
+          }
+        });
+      }
+    }
+    // <<< seçilen file_category iznine göre checkbox davranışı ayarlanıyor (bitti)
+
+
+  function prodCatDoldur(prodCatUid) {
+    //product içi boşaltılıyor
+    for (i = (product.length-1); i>=0; i--){
+      product.remove(i);
+    }
+    var opt1 = document.createElement("option");
+    opt1.text = "Ürün Klasörü Seçin";
+    opt1.value = "";
+    product.add(opt1);
+
+    //file_category içi boşaltılıyor
+    for (i = (file_category.length-1); i >= 0 ; i--){
+      file_category.remove(i);
+    }
+    var opt2 = document.createElement("option");
+    opt2.text = "Dosya Tipi Klasörü Seçin";
+    opt2.value = "";
+    file_category.add(opt2);
+
+    if (prodCatUid != ""){
+      //seçilen üst klasöre göre product dolduruluyor
+      database.ref("menu/productCategory/"+prodCatUid+"/product").orderByChild("name").once('value').then(function(snapshot) {
+        snapshot.forEach( snap => {
+          var prodOpt = document.createElement("option");
+          prodOpt.text = snap.val().name;
+          prodOpt.value = snap.val().uid;
+          if (snap.val().uid == "<%= selectedProduct %>") {
+          prodOpt.selected = true;
+          }
+          product.add(prodOpt);
+        });
+      });
+    }
+  }
+
+  function productDoldur(productUid) {
+    //file_category içi boşaltılıyor
+      for (i = (file_category.length-1); i >= 0 ; i--){
+        file_category.remove(i);
+      }
+      var opt2 = document.createElement("option");
+      opt2.text = "Dosya Tipi Klasörü Seçin";
+      opt2.value = "";
+      file_category.add(opt2);
+
+    if (productUid != ""){
+      //seçilen üst klasöre göre file_category dolduruluyor
+      database.ref("folders/productCategory/" + product_category.value + "/product/" + productUid + "/fileCategory").orderByChild("name").once('value').then(function(snapshot) {
+        snapshot.forEach( snap => {
+          var fCatOpt = document.createElement("option");
+          fCatOpt.text = snap.val().name;
+          fCatOpt.value = snap.val().uid;
+          if (snap.val().uid == "<%= selectedFileCat %>") {
+          fCatOpt.selected = true;
+          // getChbPermission(snap.val().uid);
+          }
+          file_category.add(fCatOpt);
+        });
+      });
+    }
+  }
+</script>

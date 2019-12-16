@@ -1,0 +1,113 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item active">Bildirim Test</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Bildirim Test</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Bildirim Gönderildi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Bildirim Test</h4>
+          </div>
+          <div class="card-body">
+            <!-- form class="form-horizontal" action="/dashboard/bildirimGonder" method="POST">
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Başlık</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Açıklama</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="description" name="description" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Bağlantı Adresi</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="url" name="url">
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <button type="submit" class="btn btn-primary">Gönder</button>
+                </div>
+              </div>
+              
+            </form -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js"></script>
+<script>
+// Give the service worker access to Firebase Messaging.
+// Note that you can only use Firebase Messaging here, other Firebase libraries
+// are not available in the service worker.
+// importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
+// importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
+
+// Initialize the Firebase app in the service worker by passing in the
+// messagingSenderId.
+firebase.initializeApp({
+  'messagingSenderId': 'mezoklinik-app'
+  // 'messagingSenderId': 'd6872f506af104b1e62f3f768682e0adde62dbd1'
+});
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
+
+////////////////// firebase-messaging-sw.js bitti //////////////////////////
+
+// Handle incoming messages. Called when:
+// - a message is received while the app has focus
+// - the user clicks on an app notification created by a sevice worker
+//   `messaging.setBackgroundMessageHandler` handler.
+messaging.onMessage(function(payload) {
+  console.log("Message received. ", payload);
+  // ...
+});
+
+</script>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MezoKlinik</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="/public/dashboard/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="/public/dashboard/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="/public/dashboard/css/fontastic.css">
+    <!-- Google fonts - Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <!-- jQuery Circle-->
+    <link rel="stylesheet" href="/public/dashboard/css/grasp_mobile_progress_circle-1.0.0.min.css">
+    <!-- Custom Scrollbar-->
+    <link rel="stylesheet" href="/public/dashboard/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="/public/dashboard/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="/public/dashboard/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/public/dashboard/img/favicon.ico">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  </head>
+  <body>
+    <div class="page login-page">
+      <div class="container">
+        <div class="form-outer text-center d-flex align-items-center">
+          <div class="form-inner" style="width: 100%">
+            <div class="logo text-uppercase"><span>Mezo</span><strong class="text-primary">Klinik</strong></div>
+            
+            <% if (status == "no" ) { %>
+            <% } else { %>
+              <div class="alert-danger">
+              <%- status %>
+              </div>
+            <% } %>
+            
+            <form id="login-form" action="/login" method="post">
+              <div class="form-group-material">
+                <input id="login-username" type="text" name="loginUsername" required class="input-material">
+                <label for="login-username" class="label-material">Kullanıcı Adı</label>
+              </div>
+              <div class="form-group-material">
+                <input id="login-password" type="password" name="loginPassword" required class="input-material">
+                <label for="login-password" class="label-material">Şifre</label>
+              </div><!-- a id="login" href="index.html" class="btn btn-primary">Giriş</a -->
+              <input type="submit" class="btn btn-primary" value="Giriş">
+              <!-- This should be submit button but I replaced it with <a> for demo purposes-->
+            </form><!-- a href="#" class="forgot-pass">Forgot Password?</a><small>Do not have an account? </small><a href="register.html" class="signup">Signup</a -->
+          </div>
+          <div class="copyrights text-center">
+            <p>Edugineer &copy; 2018</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Javascript files-->
+    <script src="/public/dashboard/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/dashboard/vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="/public/dashboard/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/public/dashboard/js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
+    <script src="/public/dashboard/vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <script src="/public/dashboard/vendor/chart.js/Chart.min.js"></script>
+    <script src="/public/dashboard/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="/public/dashboard/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Main File-->
+    <script src="/public/dashboard/js/front.js"></script>
+  </body>
+</html>

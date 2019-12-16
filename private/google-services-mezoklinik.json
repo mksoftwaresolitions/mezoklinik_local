@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "377697913347",
+    "firebase_url": "https://mezoklinik-app.firebaseio.com",
+    "project_id": "mezoklinik-app",
+    "storage_bucket": "mezoklinik-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377697913347:android:6c8a541fb7f70ca5",
+        "android_client_info": {
+          "package_name": "com.mimcrea.mezoklinik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377697913347-rju69urbkf9jmtjin2gd2j0tb30lgebk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mimcrea.mezoklinik",
+            "certificate_hash": "01a5ffd57e35f146e5ce75c9a2fc409b55b68853"
+          }
+        },
+        {
+          "client_id": "377697913347-dsseofom9sq82l164oid7v3rhl4q1nb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeovU02lgdm1nNY9FZtRDHYn-hcxOBMZg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377697913347-dsseofom9sq82l164oid7v3rhl4q1nb5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

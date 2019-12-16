@@ -1,0 +1,354 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item active">Dosya Tipi Listele</li>
+    </ul>
+  </div>
+</div>
+<section>
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Dosya Tipi Klasörleri Listesi</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Dosya Tipi klasörü silindi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Sistemde kayıtlı dosya tipi klasörlerinin listesi</h4>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label">Ürün Kategorisi</label>
+              <div class="col-sm-10">
+                <select class="custom-select" id="product_category" name="product_category" required>
+                  <option value="">Ürün Kategorisi Klasörü Seçin</option>
+                <% prodCatList.forEach(prodCat => { %>
+                  <% if (prodCat.uid == selectedProdCat) { %>
+                  <option value="<%= prodCat.uid %>" selected><%= prodCat.name %></option>
+                  <% } else { %>
+                  <option value="<%= prodCat.uid %>"><%= prodCat.name %></option>
+                  <% } %>
+                <% }); %>
+                </select>
+              </div>
+            </div>
+            <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ürün</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="product" name="product" required>
+                    <option value="">Ürün Klasörü Seçin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover" id="fileCategoryTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Klasör Adı</th>
+                    <th>Başlık</th>
+                    <th>Açıklama</th>
+                    <th>İzin</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fullFolderModal" id="ffModalBtn" hidden></button>
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#emptyFolderModal" id="efModalBtn" hidden></button>
+
+            <!-- The Modal for full folder -->
+            <div class="modal fade" id="fullFolderModal">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Dikkat!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    Bu dosya tipi klasörüne eklenmiş dosya(lar) var. Bu klasörü silerseniz altındaki tüm dosyalar da silinecek.
+                    <br><br>Silinsin mi?
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer" id="ffModalFooter">
+                  <!-- 
+                    <a href="/dashboard/" class="btn btn-warning" >Evet</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                  -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+            <!-- The Modal for empty folder -->
+            <div class="modal fade" id="emptyFolderModal">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Dikkat!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    Dosya tipi klasörü silinecek.
+                    <br><br>Silinsin mi?
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer" id="efModalFooter">
+                  <!-- 
+                    <a href="/dashboard/" class="btn btn-warning" >Evet</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                  -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+  var product_category = document.getElementById('product_category');
+  var product = document.getElementById('product');
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // token ile kimlik doğrulama
+  firebase.auth().signInWithCustomToken("<%= customToken %>")
+      .catch(function(error) {
+        console.log("Hata! Kod: " + errorCode + "\nHata: " + errorMessage);
+      });
+
+  //değer gelmişse product_category düzenleniyor
+  if("" != "<%= selectedProdCat %>"){
+    for (i = (product.length-1); i>=0; i--){
+      product.remove(i);
+    }
+    var opt1 = document.createElement("option");
+    opt1.text = "Ürün Klasörü Seçin";
+    opt1.value = "";
+    product.add(opt1);
+  }
+    productDoldur("<%= selectedProdCat %>");
+
+    product_category.addEventListener('change', function(e){
+      productDoldur(e.target.value);
+    });
+
+    // if()
+    if(clearTable()){
+      getProductsToTable("<%= selectedProdCat %>", "<%= selectedProduct %>");
+    }
+
+    product.addEventListener('change', function(e){
+        if(clearTable()){
+          getProductsToTable(product_category.value, e.target.value);
+          // var prodRes = firebase.database().ref('folders/productCategory/' + product_category.value + '/product/' + e.target.value + '/fileCategory');
+          // prodRes.orderByChild("name").once('value', function(snapshot) {
+          //   snapshot.forEach( snap => {
+          //     pushTable(snap.val().name, snap.val().title, snap.val().description, snap.val().permission, product_category.value, e.target.value, snap.val().uid);
+          //   });
+          // });
+        }
+    });
+
+function clearTable(){
+  var table = document.getElementById("fileCategoryTable");
+  var topRow = table.rows.length;
+  for (i = (topRow-1); i >= 0; i--) {
+    table.deleteRow(-1);
+  }
+
+  // <thead>
+  var header = table.createTHead();
+  // <tr>
+  var row = header.insertRow(0);     
+  // <td>
+  row.insertCell(0).innerHTML = "<b>#</b>";
+  row.insertCell(1).innerHTML = "<b>Klasör Adı</b>";
+  row.insertCell(2).innerHTML = "<b>Başlık</b>";
+  row.insertCell(3).innerHTML = "<b>Açıklama</b>";
+  row.insertCell(4).innerHTML = "<b>İzin</b>";
+  row.insertCell(5).innerHTML = "<b>İşlemler</b>";
+  return true;
+}
+
+function pushTable(c2,c3,c4,c5,c6,c7,c8){
+  var table = document.getElementById("fileCategoryTable");
+  var totalRow = table.rows.length;
+  var row = table.insertRow(totalRow);
+  row.insertCell(0).innerHTML = totalRow;
+  row.insertCell(1).innerHTML = c2;
+  row.insertCell(2).innerHTML = c3;
+  row.insertCell(3).innerHTML = c4;
+  if (c5 == true) {
+  row.insertCell(4).innerHTML = "Herkes";
+  } else {
+  row.insertCell(4).innerHTML = "Doktor";
+  }
+  row.insertCell(5).innerHTML = "<a href=\"/dashboard/dosyaTipiDuzenle/"+c6+"&"+c7+"&"+c8+"\" class=\"btn btn-sm btn-info\">Düzenle</a>&nbsp;&nbsp;" +
+                      "<a href=\"javascript:;\" onclick=\"delBtn('" + c6 + "', '" + c7 + "', '" + c8 + "', "+ totalRow +")\" class=\"btn btn-sm btn-danger\">Sil</a>";
+}
+
+function getProductsToTable(prCatUid, prdUid){
+  if(prCatUid != 0 && prCatUid != "" && prdUid != 0 && prdUid != ""){
+    var prodRes = firebase.database().ref('folders/productCategory/' + prCatUid + '/product/' + prdUid + '/fileCategory');
+    prodRes.orderByChild("name").once('value', function(snapshot) {
+      snapshot.forEach( snap => {
+        pushTable(snap.val().name, snap.val().title, snap.val().description, snap.val().permission, prCatUid, prdUid, snap.val().uid);
+      });
+    });
+  }
+}
+
+function productDoldur(prdCatUid) {
+  //product içi boşaltılıyor
+  for (i = (product.length-1); i>=0; i--){
+    product.remove(i);
+  }
+  var opt1 = document.createElement("option");
+  opt1.text = "Ürün Klasörü Seçin";
+  opt1.value = "";
+  product.add(opt1);
+  
+  if (prdCatUid != 0 && prdCatUid != ""){
+    //seçilen üst klasöre göre product dolduruluyor
+    database.ref("menu/productCategory/"+prdCatUid+"/product").orderByChild("name").once('value').then(function(snapshot) {
+      snapshot.forEach( snap => {
+        var option = document.createElement("option");
+        option.text = snap.val().name;
+        option.value = snap.val().uid;
+        if (snap.val().uid == "<%= selectedProduct %>") {
+        option.selected = true;
+        }
+        product.add(option);
+      });
+    });
+  }  
+}
+
+function delBtn(pcUid, pUid, fcUid, tableRowIndex){
+  var subUrl = "/dashboard/dosyaTipiSil/" + pcUid + "&" + pUid + "&" + fcUid;
+  database.ref("folders/productCategory/"+pcUid+"/product/"+pUid+"/fileCategory/"+fcUid+"/file").once('value').then(function(snapshot) {
+    if (snapshot.val() == null){ // emptyFolder
+      document.getElementById("efModalFooter").innerHTML = "<a href=\""+subUrl+"\" class=\"btn btn-warning\" >Evet</a>"+
+                        "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">İptal</button>";
+      document.getElementById("efModalBtn").click();
+    } else { //fullFolder
+      document.getElementById("ffModalFooter").innerHTML = "<a href=\"javascript:;\" onclick=\"deleteAllStorage('"+pcUid+"','"+pUid+"','"+fcUid+"', "+tableRowIndex+")\" class=\"btn btn-danger\" >Evet</a>"+
+                        "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\" id=\"ffCancelBtn\">İptal</button>";
+      document.getElementById("ffModalBtn").click();
+
+    }
+  });
+  //firebase dosya kontrolü
+}
+
+
+//storagedeki dosyalar siliniyor
+function deleteAllStorage(pcUid, pUid, fcUid, tableRowIndex){
+  database.ref("folders/productCategory/"+pcUid+"/product/"+pUid+"/fileCategory/"+fcUid+"/file").once('value').then(function(snapshot) {
+    // Points to the root reference
+    var storageRef = firebase.storage().ref("folders/"+pcUid+"/"+pUid+"/"+fcUid);
+
+    // Create a reference to the file to delete
+    // var desertRef = storageRef.child('deleteTest');
+
+    snapshot.forEach( snap => {
+      // Delete the file
+      storageRef.child(snap.val().storage_name).delete().then(function() {
+        // File deleted successfully
+        console.log(snap.val().storage_name + " silindi.");
+          
+        //datebase siliniyor
+        database.ref("folders/productCategory/"+pcUid+"/product/"+pUid+"/fileCategory/"+fcUid)
+        .remove(function(error) {
+          if (error) {
+            console.log("Realtime DB update hatası: Dosya bilgileri veritabanından silinemedi. " + error);
+          } else {
+            //Silme başarılı
+            console.log("dosya bilgileri dbden silindi");
+            // location.reload();
+          }
+        });
+
+      }).catch(function(error) {
+        // Uh-oh, an error occurred!
+        console.log("Hata: " + snap.val().storage_name + " silinemedi.");
+      });
+    });
+      document.getElementById("ffCancelBtn").click();
+      console.log("row index: " + tableRowIndex);
+      document.getElementById("fileCategoryTable").deleteRow(tableRowIndex);
+
+//YÖNLENDİRMEDE SIKINTI VAR BUNU ÇÖZ
+
+    // location.href = "/dashboard/dosyaTipiSil/" + pcUid + "&" + pUid + "&" + fcUid;
+    // return null;
+    
+  });
+    
+}
+</script>

@@ -1,0 +1,119 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item"><a href="/dashboard/doktorListesi">Doktor Listele</a></li>
+      <li class="breadcrumb-item active">Doktor Düzenle</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Doktor Düzenle</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Doktor bilgileri güncellendi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Doktor Bilgisi Güncelleme Formu</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/doktorDuzenle" method="POST">
+
+                  <input type="text" class="form-control" id="uid" name="uid" value="<%= doctor.user_uid %>" hidden required>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Ad Soyad</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="name_surname" name="name_surname" value="<%= doctor.name_surname %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">E-posta</label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="email" name="email" value="<%= doctor.email %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Telefon</label>
+                <div class="col-sm-10">
+                  <input type="tel" class="form-control" id="phone_number" name="phone_number" value="<%= doctor.phohe_number %>">
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Doğum Tarihi</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="birth_date" name="birth_date" value="<%= doctor.birth_date %>">
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Branş</label>
+                <div class="col-sm-10">
+                  <select class="custom-select" id="branch_name" name="branch_name" required>
+                    <option value="">Branş seçin</option>
+                  <% branchList.forEach(branch => { %>
+                    <% if (branch.branch_name == doctor.branchModel.branch_name) { %>
+                      <option value="<%= branch.branch_name %>" selected><%= branch.branch_name %></option>
+                    <% } else { %>
+                      <option value="<%= branch.branch_name %>"><%= branch.branch_name %></option>
+                  <% } %>
+                  <% }); %>
+                  </select>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Şehir</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="city_name" name="city_name" value="<%= doctor.city.city_name %>">
+                </div>
+              </div>
+              <div class="line"></div>
+              <!-- div class="form-group row">
+                <label class="col-sm-2 form-control-label">Şifre</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="password" name="password" placeholder="Şifreniz en az 6 karaterden oluşmalıdır." minlength="6" value="<%= doctor.password %>" required>
+                </div>
+              </div>
+              <div class="line"></div -->
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <!-- button type="submit" class="btn btn-secondary">Cancel</button -->
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

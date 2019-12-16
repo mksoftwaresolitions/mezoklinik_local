@@ -1,0 +1,181 @@
+<!-- Breadcrumb-->
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+      <li class="breadcrumb-item"><a href="/dashboard/kampanyaListesi">Kampanyalar</a></li>
+      <li class="breadcrumb-item active">Kampanya Düzenle</li>
+    </ul>
+  </div>
+</div>
+<section class="forms">
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+      <h1 class="h3 display">Kampanya Düzenle</h1>
+    </header>
+
+    <% if (status == "no") { %>
+    <% } else if (status == "ok") { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Kampanya güncellendi.</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%- status %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h4>Kampanya Güncelleme Formu</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/kampanyaDuzenle" method="POST">
+
+              <input type="text" class="form-control" id="uid" name="uid" value="<%= campaign.uid %>" hidden required>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Kampanya Adı</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="campaign_title" name="campaign_title" value="<%= campaign.title %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Açıklama</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="campaign_description" name="campaign_description" rows="5" required><%= campaign.description %></textarea>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Başlangıç Tarihi</label>
+                <div class="col-sm-4">
+                  <input type="date" class="form-control" id="start_date" name="start_date" value="<%= campaign.start_date %>" required>
+                </div>
+                
+                <div class="col-sm-1">
+                </div>
+                <label class="col-sm-1 form-control-label">Bitiş Tarihi</label>
+                <div class="col-sm-4">
+                  <input type="date" class="form-control" id="finish_date" name="finish_date" value="<%= campaign.finish_date %>" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Kampanya Görseli <p id="campaignImgProgressPercent"></p></label>
+                <div class="col-sm-10">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="download_url" name="download_url" value="<%= campaign.download_url %>" hidden>
+                  <input type="text" class="form-control" id="storage_name" name="storage_name" value="<%= campaign.storage_name %>" hidden>
+                  <input type="file" value="upload" id="campaignImgButton" title="Ürün Görseli Seç" accept="image/*"/>
+                </div>
+                  <div class="col-sm-2">
+                    <img id="campaignImgPreview" src="<%= campaign.download_url %>" alt="" height="100px">
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+              
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+
+  var start = document.getElementById("start_date");
+  var finish = document.getElementById("finish_date");
+  finish.addEventListener('change', function(e){
+  if(finish.value < start.value){
+    finish.value = e.target.defaultValue;
+    alert("Bitiş tarihi, başlangıç tarihinden önce olamaz!");
+  }  
+  if((new Date(finish.value).getTime()) < (new Date().getTime())){
+    finish.value = e.target.defaultValue;
+    alert("Bitiş tarihi, bugünün tarihinden önce olamaz!");
+  }  
+});
+start.addEventListener('change', function(e){
+  if(finish.value < start.value){
+    start.value = e.target.defaultValue;
+    alert("Başlangıç tarihi, bitiş tarihinden sonra olamaz!");
+  }  
+});
+
+
+///////////////// Upload /////////////////////////
+// Get elements
+var campaignImgButton = document.getElementById('campaignImgButton');
+
+//campaign image upload
+campaignImgButton.addEventListener('change', function(e) {
+    // Get file
+    var file = e.target.files[0];
+
+    var date = new Date().getTime();
+    var storageRef = firebase.storage().ref("campaignFiles/" + date + file.name);
+
+    // Upload file
+    var task = storageRef.put(file);
+
+    // Update progress bar
+    task.on('state_changed',
+        function progress(snapshot) {
+            var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // uploader.value = percentage;
+            document.getElementById("campaignImgProgressPercent").innerHTML = "%" + Math.floor(percentage);
+        },
+        function error(err) {
+          // alert error
+            document.getElementById("campaignImgProgressPercent").innerHTML = "Hata! Tekrar deneyin";
+          // document.getElementById("errorAlert").removeAttribute("hidden");
+        },
+        function complete() {
+          var downloadURL = task.snapshot.downloadURL;
+          document.getElementById("download_url").value = downloadURL;
+          document.getElementById("campaignImgPreview").src = downloadURL;
+
+        }
+    );
+});
+///////////////// Upload /////////////////////////
+</script>

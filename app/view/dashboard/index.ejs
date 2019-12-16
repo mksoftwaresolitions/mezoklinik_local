@@ -1,0 +1,328 @@
+<!-- Counts Section -->
+<section class="dashboard-counts section-padding">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Count item widget-->
+      <div class="col-xl-3 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon"><i class="icon-user"></i></div>
+          <div class="name"><strong class="text-uppercase">Kullanıcılar</strong><span>&nbsp;&nbsp;</span>
+            <div class="count-number" id="divStatUser"><%=stats.users%></div>
+          </div>
+        </div>
+      </div>
+      <!-- Count item widget-->
+      <div class="col-xl-3 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon"><i class="icon-check"></i></div>
+          <div class="name"><strong class="text-uppercase">Faydalı Bağlantılar</strong><span>&nbsp;</span>
+            <div class="count-number" id="divStatHLink"><%=stats.helpfulLinks%></div>
+          </div>
+        </div>
+      </div>
+      <!-- Count item widget-->
+      <div class="col-xl-3 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon"><i class="icon-bill"></i></div>
+          <div class="name"><strong class="text-uppercase">Kampanyalar</strong><span>&nbsp;</span>
+            <div class="count-number" id="divStatCampaign"><%=stats.campaigns%></div>
+          </div>
+        </div>
+      </div>
+      <!-- Count item widget-->
+      <div class="col-xl-3 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon"><i class="icon-list"></i></div>
+          <div class="name"><strong class="text-uppercase">Bildirimler</strong><span>&nbsp;</span>
+            <div class="count-number" id="divStatNotification"><%=stats.notifications%></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Header Section-->
+<section class="dashboard-header section-padding">
+  <div class="container-fluid">
+    <div class="row d-flex align-items-md-stretch">
+      <!-- Bildirim gönderme -->
+      <div class="col-lg-6 col-md-12 flex-lg-last flex-md-first align-self-baseline" style="border-right: 1px solid #00000029;">
+        <div class="card sales-report">
+          <h2 class="display h4">Bildirim Gönderme Formu</h2>
+          <p> Cep telefonlarında mobil uygulama yüklü olan kullanıcılara bildirim gönderebileceğiniz bildirim gönderme formu</p>
+          <div class="card">
+          <!-- div class="card-header d-flex align-items-center">
+            <h4>Bildirim Gönderme Formu</h4>
+          </div -->
+          <div class="card-body">
+            <form class="form-horizontal" action="/dashboard/bildirimGonder" method="POST">
+
+              <div class="form-group row">
+                <div class="col-sm-2">
+                <label class="form-control-label">Kime</label>
+                </div>
+
+                <div class="col-sm-5 text-center">
+                  <label class="col-sm-6 form-control-label">Doktor</label>
+                  <input type="radio" class="form-control" id="radio_to" name="radio_to" value="doctor">
+                </div>
+                <div class="col-sm-5 text-center">
+                  <label class="col-sm-6 form-control-label">Tümü</label>
+                  <input type="radio" class="form-control" id="radio_to" name="radio_to" value="all" checked>
+                </div>
+                
+              </div>
+              <div class="line"></div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Başlık</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+              <div class="form-group row">
+                <label class="col-sm-2 form-control-label">Açıklama</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                </div>
+              </div>
+              <div class="line"></div>
+              
+
+              <div class="form-group row">
+                <div class="col-sm-4 offset-sm-2">
+                  <button type="submit" class="btn btn-primary">Gönder</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+          <!-- div class="line-chart">
+            <canvas id="lineCahrt"></canvas>
+          </div -->
+        </div>
+      </div>
+      <!-- Pie Chart-->
+      <div class="col-lg-6 col-md-12">
+        <div class="card project-progress text-center">
+          <h2 class="display h4">İstatistik Grafiği</h2>
+          <p> Sistemde kayıtlı verilerin toplam kayıt sayılarının grafik gösterimi</p>
+          <div class="pie-chart">
+            <canvas id="pieChart" width="300" height="300"> </canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Statistics Section-->
+<!-- Updates Section -->
+<section class="mt-30px mb-30px">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <!-- Recent Updates Widget -->
+        <div id="new-updates" class="card updates recent-updated">
+          <div id="updates-header" class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h5 display"><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box">Son 10 Bildirim</a></h2><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box"><i class="fa fa-angle-down"></i></a>
+          </div>
+          <div id="updates-box" role="tabpanel" class="collapse show">
+            <ul class="news list-unstyled" id="ntfUl">
+              
+            </ul>
+          </div>
+        </div>
+        <!-- Recent Updates Widget End-->
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <!-- Daily Feed Widget-->
+        <div id="daily-feeds" class="card updates daily-feeds">
+          <div id="feeds-header" class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h5 display"><a data-toggle="collapse" data-parent="#daily-feeds" href="#feeds-box" aria-expanded="true" aria-controls="feeds-box">Son 10 Doktor </a></h2>
+            <div class="right-column">
+              <div class="badge badge-primary" id="drBadge"><!-- badge --></div><a data-toggle="collapse" data-parent="#daily-feeds" href="#feeds-box" aria-expanded="true" aria-controls="feeds-box"><i class="fa fa-angle-down"></i></a>
+            </div>
+          </div>
+          <div id="feeds-box" role="tabpanel" class="collapse show">
+            <div class="feed-box">
+              <ul class="feed-elements list-unstyled" id="userUl">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Daily Feed Widget End-->
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <!-- Recent Activities Widget      -->
+        <div id="recent-activities-wrapper" class="card updates activities">
+          <div id="activites-header" class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h5 display"><a data-toggle="collapse" data-parent="#recent-activities-wrapper" href="#activities-box" aria-expanded="true" aria-controls="activities-box">Son 10 Kampanya</a></h2><a data-toggle="collapse" data-parent="#recent-activities-wrapper" href="#activities-box" aria-expanded="true" aria-controls="activities-box"><i class="fa fa-angle-down"></i></a>
+          </div>
+          <div id="activities-box" role="tabpanel" class="collapse show">
+            <ul class="activities list-unstyled" id="cmpUl">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyDpD2xg33L8GRxM3ym2xRqO52YiIEPo1Ic",
+  authDomain: "mezoklinik-af086.firebaseapp.com",
+  databaseURL: "https://mezoklinik-af086.firebaseio.com",
+  projectId: "mezoklinik-af086",
+  storageBucket: "mezoklinik-af086.appspot.com",
+  messagingSenderId: "905154803992",
+  appId: "1:905154803992:web:542b44d48aa1f4e822066d",
+  measurementId: "G-T43PZWT06K"
+  };
+  firebase.initializeApp(config);
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // token ile kimlik doğrulama
+  firebase.auth().signInWithCustomToken("<%= customToken %>")
+  .catch(function(error) {
+    console.log("Hata! Kod: " + errorCode + "\nHata: " + errorMessage);
+  });
+
+database.ref("stats").on("value", function(snapshot) {
+
+  indexStats = snapshot.val();
+
+  document.getElementById("divStatUser").innerHTML = indexStats.users;
+  document.getElementById("divStatHLink").innerHTML = indexStats.helpfulLinks;
+  document.getElementById("divStatCampaign").innerHTML = indexStats.campaigns;
+  document.getElementById("divStatNotification").innerHTML = indexStats.notifications;
+}, function (errorObject) {
+    //status: "<Strong>Hata!</Strong> Veritabanı okuma hatası(istatistikler):<br>" + errorObject.code;
+});
+
+var strLi;
+database.ref("campaigns").orderByChild("start_date").limitToLast(10).on("value", function(snapshot) {
+  strLi = "";
+  snapshot.forEach(function (params) {
+      var sd = new Date(Number(params.val().start_date));
+      var fd = new Date(Number(params.val().finish_date));
+
+      strLi += "<li>"+
+        "<div class=\"row\">"+
+          "<div class=\"col-4 date-holder text-right\">"+
+            "<div class=\"icon\"><i class=\"icon-clock\"></i></div>"+
+            "<div class=\"date\"> <span>"+
+            sd.getDate() + "." + (sd.getMonth()+1) + "." + sd.getFullYear()+
+            "</span><span class=\"text-info\">"+
+            fd.getDate() + "." + (fd.getMonth()+1) + "." + fd.getFullYear()+
+            "</span></div>"+
+          "</div>"+
+          "<div class=\"col-8 content\"><strong>"+params.val().title+"</strong>"+
+            "<p>"+params.val().description+"</p>"+
+          "</div>"+
+        "</div>"+
+      "</li>";
+
+  });
+      document.getElementById("cmpUl").innerHTML = strLi;
+  
+}, function (errorObject) {
+    //status: "<Strong>Hata!</Strong> Veritabanı okuma hatası(kampanyalar):<br>" + errorObject.code;
+});
+
+var strNtfLi;
+database.ref("notifications").orderByChild("uid").limitToLast(10).on("value", function(snapshot) {
+  strNtfLi = [];
+  snapshot.forEach(function (params) {
+
+    var sendDate = params.val().uid.substring(0, 13);
+    sendDate = new Date(Number(sendDate));
+
+    strNtfLi.unshift("<li class=\"d-flex justify-content-between\">"+
+        "<div class=\"left-col d-flex\">"+
+          "<div class=\"icon\"><i class=\"icon-rss-feed\"></i></div>"+
+          "<div class=\"title\"><strong>"+params.val().title+"</strong>"+
+            "<p>"+params.val().description+"</p>"+
+          "</div>"+
+        "</div>"+
+        "<div class=\"right-col text-right\">"+
+          "<div class=\"update-date\">"+sendDate.getDate()+"<span class=\"month\">"+sendDate.toString().substring(4, 7)+"</span></div>"+
+        "</div>"+
+      "</li>");
+
+  });
+  var strNtf = "";
+  strNtfLi.forEach( ntf => {
+    strNtf += ntf;
+  });
+      document.getElementById("ntfUl").innerHTML = strNtf;
+  
+}, function (errorObject) {
+    //status: "<Strong>Hata!</Strong> Veritabanı okuma hatası(kampanyalar):<br>" + errorObject.code;
+});
+
+var userLiList;
+var drBadge;
+database.ref("users").limitToLast(10).on("value", function(snapshot) {
+  userLiList = [];
+  drBadge = 0;
+  snapshot.forEach(function (params) {
+
+    // var sendDate = params.val().uid.substring(0, 13);
+    // sendDate = new Date(Number(sendDate));
+
+    if (!params.val().active) {
+      drBadge += 1;
+    }
+
+    userLiList.unshift("<li class=\"clearfix\">"+
+        "<div class=\"feed d-flex justify-content-between\">"+
+          "<div class=\"feed-body d-flex justify-content-between\">"+
+          "<a href=\"#\" class=\"feed-profile\">"+
+         "<i class=\"icon-user\" style=\"font-size:36px; opacity: 0.6;\"></i>"+
+          //"<img src=\"/public/dashboard/img/avatar-5.jpg\" alt=\"person\" class=\"img-fluid rounded-circle\">"+
+          "</a>"+
+            "<div class=\"content\"><strong>"+params.val().name_surname+"</strong><small>"+params.val().email+"</small>"+
+              "<div class=\"full-date\"><small>"+params.val().phohe_number+"</small></div>"+
+            "</div>"+
+          "</div>"+
+          "<div class=\"date\"><small><!-- sağ üst zaman --></small></div>"+
+        "</div>"+
+      "</li>");
+
+  });
+  var strUser = "";
+  userLiList.forEach( usr => {
+    strUser += usr;
+  });
+      document.getElementById("userUl").innerHTML = strUser;
+      if(drBadge > 0){
+        document.getElementById("drBadge").innerHTML = "Onay bekleyen: " + drBadge;
+      } else {
+        document.getElementById("drBadge").innerHTML = "";
+      }
+  
+}, function (errorObject) {
+    //status: "<Strong>Hata!</Strong> Veritabanı okuma hatası(kampanyalar):<br>" + errorObject.code;
+});
+
+
+
+var indexStats = {
+  users: '<%= stats.users %>',
+  helpfulLinks: '<%= stats.helpfulLinks %>',
+  campaigns: '<%= stats.campaigns %>',
+  notifications: '<%= stats.notifications %>',
+}
+
+</script>
