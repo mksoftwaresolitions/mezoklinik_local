@@ -114,6 +114,7 @@ module.exports.doktorEkleGet = function (req, res) {
 }
 
 module.exports.doktorEklePost = function (req, res) {
+    console.log(req.session.userName);
     if (req.session.userName) {
 
         var dt = "", trh = "";
@@ -178,15 +179,16 @@ module.exports.doktorEklePost = function (req, res) {
                                 });
 
                             // console.log("Realtime DB set hatası: kullanıcı kayıt edilemedi. " + error);
-                        } else {
-                            //kayıt başarılı
-                            res.render('dashboard/doctorAdd', {
-                                layout: 'dashboard/layout',
-                                branchList: branchList,
-                                doctorInfo: doctorInfo,
-                                status: "ok"
-                            });
-                            // mail şablonu alınıyor
+                        }
+                        else {
+                            ////kayıt başarılı
+                            //res.render('dashboard/doctorAdd', {
+                            //    layout: 'dashboard/layout',
+                            //    branchList: branchList,
+                            //    doctorInfo: doctorInfo,
+                            //    status: "ok"
+                            //});
+                            ////mail şablonu alınıyor
                             //db.ref("mailTemplate").once("value", function (snapshot) {
                             //    //mail gönderiliyor
                             //    var htxt = snapshot.val().newUser.html_text.replace(/\%UyeAdi\%/gi, req.body.name_surname);
@@ -439,6 +441,7 @@ module.exports.doktorDuzenlePost = function (req, res) {
 }
 
 module.exports.doktorOnayListGet = function (req, res) {
+    console.log(req.session.userName);
     if (req.session.userName) {
 
         var ref = db.ref("users");
@@ -506,27 +509,27 @@ module.exports.doktorOnayGet = function (req, res) {
                         usersVal.push(params.val());
                     })
 
-                    //// mail şablonu alınıyor
-                    //db.ref("mailTemplate").once("value", function (snapshot) {
-                    //    //mail gönderiliyor
-                    //    var htxt = snapshot.val().acceptUser.html_text.replace(/\%UyeAdi\%/gi, req.params.name);
-                    //    var sbj = snapshot.val().acceptUser.subject.replace(/\%UyeAdi\%/gi, req.params.name);
-                    //    sendMail(htxt, sbj, req.params.email);
+                    // mail şablonu alınıyor
+                    db.ref("mailTemplate").once("value", function (snapshot) {
+                        //mail gönderiliyor
+                        var htxt = snapshot.val().acceptUser.html_text.replace(/\%UyeAdi\%/gi, req.params.name);
+                        var sbj = snapshot.val().acceptUser.subject.replace(/\%UyeAdi\%/gi, req.params.name);
+                        sendMail(htxt, sbj, req.params.email);
 
-                    //    res.render('dashboard/doctorAcceptList', {
-                    //        layout: 'dashboard/layout',
-                    //        status: "ok",
-                    //        users: usersVal
-                    //    });
-                    //}, function (errorObject) {
-                    //    console.log("Mail şablonu okuma hatası: " + errorObject.code);
+                        res.render('dashboard/doctorAcceptList', {
+                            layout: 'dashboard/layout',
+                            status: "ok",
+                            users: usersVal
+                        });
+                    }, function (errorObject) {
+                        console.log("Mail şablonu okuma hatası: " + errorObject.code);
 
-                    //    res.render('dashboard/doctorAcceptList', {
-                    //        layout: 'dashboard/layout',
-                    //        status: "<strong>Kullanıcı onaylandı.</strong><br>Kulanıcıya E-Posta göderilemedi.",
-                    //        users: usersVal
-                    //    });
-                    //});
+                        res.render('dashboard/doctorAcceptList', {
+                            layout: 'dashboard/layout',
+                            status: "<strong>Kullanıcı onaylandı.</strong><br>Kulanıcıya E-Posta göderilemedi.",
+                            users: usersVal
+                        });
+                    });
 
                 }, function (errorObject) {
                     console.log("Realtime DB hatası: liste alınamadı. " + errorObject.code);
@@ -3382,11 +3385,11 @@ function sendMail(html_text, subject, to) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
-        port: 465,
+        port: 587,
         secure: true, // true for 465, false for other ports(587)
         auth: {
-            user: 'mezoklinik.app@gmail.com',
-            pass: 'Mzk.2018'
+            user: 'mezoklinik@gmail.com',
+            pass: '$mezo3434'
         }
     });
 
@@ -3411,7 +3414,7 @@ function sendMail(html_text, subject, to) {
     // };
 
     var mailOptions = {
-        from: 'mezoklinik.app@gmail.com',
+        from: 'mezoklinik@gmail.com',
         to: to,
         subject: subject,
         // text: text,

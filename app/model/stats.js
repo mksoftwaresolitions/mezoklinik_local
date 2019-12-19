@@ -62,16 +62,16 @@ admin.database().ref('users').on("child_added", function(event) {
   if (event.val().user_role == 1){
     doctorcount += 1;
   }
-  // mobilden kayıt yapan onaylanmamış kullanıcıya mail gönderiyoruz
-  if (event.val().active == false){
-    admin.database().ref("mailtemplate").child("newuser").once("value", function(mailparams) {
-      // kullanıcı adı mail şablona yerleştiriliyor
-      var htxt = mailparams.val().html_text.replace(/\%uyeadi\%/gi, event.val().name_surname);
-      var sbj = mailparams.val().subject.replace(/\%uyeadi\%/gi, event.val().name_surname);
-      //mail gönderiliyor
-      sendmail(htxt, sbj, event.val().email);
-    });
-  }
+  //// mobilden kayıt yapan onaylanmamış kullanıcıya mail gönderiyoruz
+  //if (event.val().active == false){
+  //  admin.database().ref("mailTemplate").child("newUser").once("value", function(mailparams) {
+  //    // kullanıcı adı mail şablona yerleştiriliyor
+  //    var htxt = mailparams.val().html_text.replace(/\%uyeadi\%/gi, event.val().name_surname);
+  //    var sbj = mailparams.val().subject.replace(/\%uyeadi\%/gi, event.val().name_surname);
+  //    //mail gönderiliyor
+  //    sendmail(htxt, sbj, event.val().email);
+  //  });
+  //}
   statsref.once("value", function(snapshot) {
     if (usercount > snapshot.val().users ) {
 
