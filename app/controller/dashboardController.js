@@ -3382,15 +3382,14 @@ function sendMail(html_text, subject, to) {
     /**
      * Gmail Ayarları
      */
-
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com', // x
         port: 587,
         secure: false, // true for 465, false for other ports(587)
         auth: {
-            user: 'controlshiftn6@gmail.com',
-            pass: 'Emin.krs.58.'
+            user: 'mezoklinik@gmail.com',
+            pass: '$mezo3434'
         }
     });
 
@@ -3415,7 +3414,7 @@ function sendMail(html_text, subject, to) {
     // };
 
     var mailOptions = {
-        from: 'controlshiftn6@gmail.com',
+        from: 'mezoklinik@gmail.com',
         to: to,
         subject: subject,
         // text: text,
