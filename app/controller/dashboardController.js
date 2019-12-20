@@ -3384,7 +3384,7 @@ function sendMail(html_text, subject, to) {
      */
     var transporter = nodemailer.createTransport({
         service: 'gmail',
-        host: 'smtp.gmail.com',
+        host: 'smtp.gmail.com', // x
         port: 587,
         secure: true, // true for 465, false for other ports(587)
         auth: {
