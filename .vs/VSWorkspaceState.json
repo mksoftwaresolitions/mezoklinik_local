@@ -4,8 +4,8 @@
     "\\app",
     "\\app\\controller",
     "\\app\\model",
-    "\\app\\router"
+    "\\app\\router",
+    "\\app\\view"
   ],
-  "SelectedNode": "\\app\\model\\stats.js",
   "PreviewInSolutionExplorer": false
 }
