@@ -3382,7 +3382,8 @@ function sendMail(html_text, subject, to) {
     /**
      * Gmail Ayarları
      */
-    var transporter = nodemailer.createTransport({
+    var smtpTransport = require('nodemailer-smtp-transport');
+    var transporter = nodemailer.createTransport(smtpTransport({
         service: 'gmail',
         host: 'smtp.gmail.com', // x
         port: 465,
@@ -3391,7 +3392,7 @@ function sendMail(html_text, subject, to) {
             user: 'mezoklinik@gmail.com',
             pass: '$mezo3434'
         }
-    });
+    }));
 
     /**
      * Test Settings
