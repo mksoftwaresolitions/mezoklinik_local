@@ -3386,7 +3386,7 @@ function sendMail(html_text, subject, to) {
         service: 'gmail',
         host: 'smtp.gmail.com',
         port: 587,
-        secure: false, // true for 465, false for other ports(587)
+        secure: true, // true for 465, false for other ports(587)
         auth: {
             user: 'mezoklinik@gmail.com',
             pass: '$mezo3434'
