@@ -3388,7 +3388,7 @@ function sendMail(html_text, subject, to) {
         port: 587,
         secure: false, // true for 465, false for other ports(587)
         auth: {
-            user: 'mezoklinik@gmail.com',
+            user: 'mezoklinik',
             pass: '$mezo3434'
         }
     });
