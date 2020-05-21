@@ -3389,7 +3389,7 @@ function sendMail(html_text, subject, to) {
         secure: false, // true for 465, false for other ports(587)
         auth: {
             user: 'mezoklinik',
-            pass: '$mezo3434'
+            pass: '$mezo5909'
         }
     });
 
