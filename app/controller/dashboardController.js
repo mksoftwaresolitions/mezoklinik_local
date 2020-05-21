@@ -3388,8 +3388,8 @@ function sendMail(html_text, subject, to) {
         port: 587,
         secure: false, // true for 465, false for other ports(587)
         auth: {
-            user: 'mezoklinik',
-            pass: '$mezo5909'
+            user: 'mezoklinik.app',
+            pass: 'Mzk.2020'
         }
     });
 
@@ -3414,7 +3414,7 @@ function sendMail(html_text, subject, to) {
     // };
 
     var mailOptions = {
-        from: 'mezoklinik@gmail.com',
+        from: 'mezoklinik.app@gmail.com',
         to: to,
         subject: subject,
         // text: text,
