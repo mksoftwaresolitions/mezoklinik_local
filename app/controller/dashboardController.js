@@ -3396,7 +3396,7 @@ function sendMail(html_text, subject, to) {
     /**
      * Test Settings
      */
-    // const transporter = nodemailer.createTransport({
+    // const transporter = nodemailer.createTransport({ ddd
     //     host: 'smtp.ethereal.email',
     //     port: 587,
     //     auth: {
