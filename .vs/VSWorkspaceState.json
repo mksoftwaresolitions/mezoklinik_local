@@ -3,9 +3,10 @@
     "",
     "\\app",
     "\\app\\controller",
-    "\\app\\model",
     "\\app\\router",
-    "\\app\\view"
+    "\\app\\view",
+    "\\app\\view\\dashboard"
   ],
+  "SelectedNode": "\\app\\view\\dashboard\\authSettings.ejs",
   "PreviewInSolutionExplorer": false
 }

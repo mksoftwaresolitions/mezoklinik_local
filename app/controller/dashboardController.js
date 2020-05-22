@@ -3389,7 +3389,7 @@ function sendMail(html_text, subject, to) {
         secure: false, // true for 465, false for other ports(587)
         auth: {
             user: 'mezoklinik.app',
-            pass: 'Mzk.2020'
+            pass: 'Mzk.2020'  //Password
         }
     });
 
