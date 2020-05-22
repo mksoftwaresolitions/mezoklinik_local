@@ -475,11 +475,11 @@ module.exports.doktorOnayGet = function (req, res) {
         var ref = db.ref("users");
         var usersVal = [];
 
-        console.log(req.params.uid);
+
         
         var usersRef = ref.child(req.params.uid);
         usersRef.update({
-            "active": false   // Burayı düzelt
+            "active": true
         }, function (error) {
             if (error) {
                 //güncelleme hatası
@@ -505,12 +505,12 @@ module.exports.doktorOnayGet = function (req, res) {
                 });
             } else {
                 //güncelleme başarılı
-                console.log('1');
+              
                 ref.orderByChild("active").equalTo(false).once("value", function (snapshot) {
                     snapshot.forEach(function (params) {
                         usersVal.push(params.val());
                     })
-                    console.log('2');
+               
                     // mail şablonu alınıyor
                     db.ref("mailTemplate").once("value", function (snapshot) {
                         //mail gönderiliyor
@@ -528,26 +528,26 @@ module.exports.doktorOnayGet = function (req, res) {
                         });
                     }, function (errorObject) {
                         console.log("Mail şablonu okuma hatası: " + errorObject.code);
-                            console.log('4');
+                            
                         res.render('dashboard/doctorAcceptList', {
                             layout: 'dashboard/layout',
                             status: "<strong>Kullanıcı onaylandı.</strong><br>Kulanıcıya E-Posta göderilemedi.",
                             users: usersVal
                          
                         });
-                            console.log('5');
+                           
                     });
 
                 }, function (errorObject) {
                     console.log("Realtime DB hatası: liste alınamadı. " + errorObject.code);
-                        console.log('6');
+                        
                     // TODO: hata mesajı verilecek
                     res.render('dashboard/doctorAcceptList', {
                         layout: 'dashboard/layout',
                         status: "<strong>Hata!</strong> Liste yenilenemedi.",
                         users: usersVal
                     });
-                        console.log('7');
+                       
                 });
 
             }
