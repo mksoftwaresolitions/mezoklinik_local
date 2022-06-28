@@ -3408,7 +3408,7 @@ function sendMail(html_text, subject, to) {
         service: 'Gmail',
         auth: {
             user: 'mezoklinik',
-            pass: '$mezo5909'
+            pass: 'Mezo2022:'
         }
     });
 
@@ -3437,7 +3437,7 @@ function sendMail(html_text, subject, to) {
     // };
 
     var mailOptions = {
-        from: 'mezoklinik@gmail.com',
+        from: 'mezoklinik2022@gmail.com',
         to: to,
         subject: subject,
         // text: text,
