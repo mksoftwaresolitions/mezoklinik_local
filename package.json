@@ -18,9 +18,9 @@
   "homepage": "https://gitlab.com/MuratTsc/mezoklinik#README",
   "dependencies": {
     "@google-cloud/storage": "^1.6.0",
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.20.1",
     "ejs": "^2.5.7",
-    "express": "^4.16.2",
+    "express": "^4.18.2",
     "express-ejs-layouts": "^2.3.1",
     "express-session": "^1.7.6",
     "express-subdomain": "^1.0.5",
