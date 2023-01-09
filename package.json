@@ -25,7 +25,7 @@
     "express-session": "^1.7.6",
     "express-subdomain": "^1.0.5",
     "firebase": "^4.10.0",
-    "firebase-admin": "^5.9.0",
+    "firebase-admin": "^11.4.1",
     "nodemailer": "^4.6.3"
   },
   "devDependencies": {
